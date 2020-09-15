@@ -2,7 +2,8 @@
 
 #importing flask and data models
 from flask import Flask, render_template
-from .models import DB, User, insert_example_users
+from .models import DB, User
+from .twitter import  insert_example_users
 
 #function to create our app
 def create_app():
@@ -19,16 +20,20 @@ def create_app():
   #listens for path '/' and executes function when heard
   @app.route('/')
   def root():
-    #re creates our database to avoid errors and duplicates
-    DB.drop_all()
-    DB.create_all()
-    #calls our function within the models.py file to insert users
-    insert_example_users()
-
-    # a select * query using SQLAlchemy
-    users = User.query.all()
-    #rendering template that we created passing Home and query to template
     return render_template('base.html', title="Home", users=User.query.all())
 
+  #associated with update button
+  @app.route('/update')
+  def update():
+    insert_example_users()
+    return render_template('base.html', title="Updated Users", users=User.query.all())
+
+  #associated with reset button
+  @app.route('/reset')
+  def reset():
+    DB.drop_all()
+    DB.create_all()
+    return render_template('base.html', title="DATABASE RESET")
+  
   #returns that app with everything we are trying to render
   return app
