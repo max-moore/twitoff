@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__)
 
     #for storing information in our database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #initilizes database within our app
@@ -40,7 +40,7 @@ def create_app():
             message = "{} is more likely to be said by {} than {}".format(
                 request.values['tweet_text'], user1 if prediction else user0, user0 if prediction else user1
             )
-        # render prediction.html and passes title and message 
+        # render prediction.html and passes title and message
         return render_template('prediction.html', title='Prediction', message=message)
 
     # two decorators/routes depending upon actions in user.html (reference user.html)
@@ -54,7 +54,7 @@ def create_app():
             if request.method == 'POST':
                 add_or_update_user(name)
                 message = "User {} succesfully added!".format(name)
-            
+
             # initialize tweets variable with users tweets
             tweets = User.query.filter(User.name == name).one().tweets
 

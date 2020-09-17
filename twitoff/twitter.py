@@ -19,7 +19,7 @@ def add_or_update_user(username):
     twitter_user = TWITTER.get_user(username)
     # add or update user
     db_user = (User.query.get(twitter_user.id)) or User(id=twitter_user.id, name=username)
-    DB.session.add(db_user)
+    DB.session.add(db_user) 
 
     #grabbing tweet
     tweets = twitter_user.timeline(count=200, exclude_replies=True, include_rts=False, 
@@ -29,7 +29,7 @@ def add_or_update_user(username):
     if tweets:
       db_user.newest_tweet_id = tweets[0].id
 
-    #loops for tweets
+    #loops for tweets 
     for tweet in tweets:
       embedding = BASILICA.embed_sentence(tweet.full_text, model='twitter')
       db_tweet = Tweet(id=tweet.id, text=tweet.full_text, embedding=embedding)
