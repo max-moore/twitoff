@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "C:\\Users\\Max\\.virtualenvs\\twitoff-zkfGLqmR\\Scripts\\python.exe",
+
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ]
+}
